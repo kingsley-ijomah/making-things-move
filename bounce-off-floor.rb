@@ -1,16 +1,16 @@
 require 'gosu'
 
 class Ball
-	attr_accessor :x, :y, :vy, :dropping
+	attr_accessor :x, :y, :vy, :dropping, :w, :h
 
 	def initialize(window)
 		@window = window
-		@width = 50
-		@height = 50
+		@w = 50
+		@h = 50
 		@image = Gosu::Image.new(@window, 'media/ball.png', true)
 		@x = @window.stage_width / 2
 		@y = @window.stage_height / 2
-		@vy = 1
+		@vy = 3
 		@dropping = true
 	end
 
@@ -33,6 +33,16 @@ class Ball
 			bounce
 		end
 	end
+
+	def detect_collision
+		if @y >= (@window.stage_height - @h/2) then
+			@dropping = false
+		end
+
+		if @y <= (@h/2) then
+			@dropping = true
+		end
+	end
 end
 
 class Game < Gosu::Window
@@ -49,10 +59,7 @@ class Game < Gosu::Window
 	def update
 		if @start
 			@ball.move
-		end
-
-		if @ball.y >= @stage_height then
-			@ball.dropping = false
+			@ball.detect_collision
 		end
 	end
 
