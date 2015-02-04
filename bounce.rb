@@ -4,7 +4,8 @@ class Ball
   def initialize(win)
     @w = 50
     @h = 50
-    @x = 200
+    @radius = @w/2
+    @x = rand(@radius..win.width-@radius)
     @y = 200
     @speed = 1
     @image = Gosu::Image.new(win, 'media/ball.png', true)
