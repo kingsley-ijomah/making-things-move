@@ -7,8 +7,8 @@ class Ball
     @radius = @w/2
     @win = win
     @x = rand(@radius..win.width-@radius)
-    @y = 200
-    @speed = 3
+    @y = rand(@radius..@win.height-@radius)
+    @speed = 4
     @image = Gosu::Image.new(win, 'media/ball.png', true)
   end
 
