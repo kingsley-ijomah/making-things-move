@@ -8,7 +8,8 @@ class Ball
     @win = win
     @x = rand(@radius..win.width-@radius)
     @y = rand(@radius..@win.height-@radius)
-    @speed = 4
+    @vx = 20
+    @vy = 20
     @image = Gosu::Image.new(win, 'media/ball.png', true)
   end
 
@@ -18,17 +19,30 @@ class Ball
 
   def move
     if hit_right_wall
-      bounce
+     horizontal_bounce 
     end
 
     if hit_left_wall
-      bounce
+      horizontal_bounce 
     end
-    @x += @speed
+
+    if hit_bottom_wall
+      vertical_bounce
+    end
+
+    if hit_top_wall
+      vertical_bounce
+    end
+    @x += @vx
+    @y += @vy
   end
 
-  def bounce
-    @speed *= -1
+  def horizontal_bounce
+    @vx *= -1
+  end
+
+  def vertical_bounce
+    @vy *= -1
   end
 
   def hit_left_wall
@@ -37,6 +51,14 @@ class Ball
 
   def hit_right_wall
     @x >= @win.width-@radius
+  end
+
+  def hit_bottom_wall
+    @y >= @win.height-@radius
+  end
+
+  def hit_top_wall
+    @y <= @radius
   end
 end
 
