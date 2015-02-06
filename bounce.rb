@@ -10,6 +10,7 @@ class Ball
     @y = rand(@radius..@win.height-@radius)
     @vx = 20
     @vy = 20
+    @paused = false
     @image = Gosu::Image.new(win, 'media/ball.png', true)
   end
 
@@ -17,7 +18,35 @@ class Ball
     @image.draw_rot(@x, @y, 0, 0)
   end
 
+  def pause
+    @vx_paused = @vx
+    @vy_paused = @vy
+    @vx = 0
+    @vy = 0
+    @paused = true
+  end
+
+  def un_pause
+    @vx = @vx_paused
+    @vy = @vy_paused
+    @paused = false
+  end
+
+  def toggle_pause
+    if @paused
+      un_pause
+    else
+      pause
+    end
+  end
+
   def move
+    collision_detect
+    @x += @vx
+    @y += @vy
+  end
+
+  def collision_detect
     if hit_right_wall
      horizontal_bounce 
     end
@@ -33,9 +62,8 @@ class Ball
     if hit_top_wall
       vertical_bounce
     end
-    @x += @vx
-    @y += @vy
   end
+
 
   def horizontal_bounce
     @vx *= -1
@@ -76,6 +104,16 @@ class Game < Gosu::Window
 
   def draw
     @ball.draw
+  end
+
+  def button_down(id)
+    if id == Gosu::KbSpace
+      @ball.toggle_pause
+    end
+
+    if id == Gosu::KbEscape
+      close
+    end
   end
 end
 
