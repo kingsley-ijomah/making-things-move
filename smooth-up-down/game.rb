@@ -13,6 +13,7 @@ class Game < Gosu::Window
   end
 
   def update
+    @ball.bounce
   end
 
   def draw
