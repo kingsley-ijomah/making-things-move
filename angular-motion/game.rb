@@ -1,16 +1,17 @@
 require 'gosu'
+require './ball'
 
 class Game < Gosu::Window
   def initialize
-    @w = 600
-    @h = 500
-    super @w, @h, false
+    super 600, 500, false
+    @ball = Ball.new(self)
   end
 
   def update
   end
 
   def draw
+    @ball.draw
   end
 end
 
